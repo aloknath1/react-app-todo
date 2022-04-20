@@ -1,3 +1,75 @@
 .App {
   text-align: left;
 }
+.box {
+  display: block;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+  width: 200px;
+  word-wrap: break-word;
+  word-break: break-all;
+  height: auto;
+  min-height: 100px;
+  float:left;
+}
+ p {
+   width: 100%;
+   padding: 3px;
+   margin: 0;
+   float: left;
+ }
+
+ button{
+   border: 1px solid red;
+   background-color: red;
+   color: #fff;
+   padding: 2px;
+   border-radius: 3px;
+   min-width: 50px;
+   cursor: pointer;
+ }
+
+ #circle {
+  width: 10px;
+  height: 10px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px; 
+}
+
+.box #circle {
+  float: right;
+}
+ .created {
+   font-size: 9px;
+ }
+ .category {
+  font-size: 12px;
+}
+ .complete {
+   background: green;
+ }
+
+ .incomplete {
+  background: yellow;
+}
+.legend{
+  margin: 20px 0 auto; 
+  display: flex;
+  border: 0px solid #000;  
+}
+
+.legend p { 
+  float: left;
+  width: auto;
+}
+.legend span{
+  display: block;
+  float: left;
+  margin: 3px;
+}
+.todos{
+  margin-top: 40px;
+}

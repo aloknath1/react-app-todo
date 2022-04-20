@@ -1,64 +1,66 @@
-import React, { Component } from 'react';
+import React, { useState, useRef } from 'react';
 import uuid from 'uuid';
+import PropTypes from 'prop-types';
 
-class AddProject extends Component {
-  
-  static defaultProps = {
-        categories: ['Web Design','Mobile Development','Web Development']
-  };
+function AddProject(props) {
+  const initialState = { 'id': uuid.v4(),
+  'title': '',
+  'createdAt': Date(),
+  'status': 'incomplete',
+  'comments': '',
+  }
 
-  handleAddProject(e)
-    {
-      if(this.refs.title.value === '')
+  let [formData, setFormData] = useState(initialState);
+  const {title, comments} = formData; 
+
+  const onChange = (e) => {
+    setFormData({
+      ...formData, 
+      [e.target.name] : e.target.value
+    });
+  }
+
+  const handleAddProject = e =>  {
+      e.preventDefault();
+      let todos = [];
+      if(formData.title.value === '')
       {
         alert('Title is required');
-      }else{
-        this.setState({newProject:{
-                                    'id': uuid.v4(),
-                                    'title': this.refs.title.value,
-                                    'category': this.refs.category.value,
-                                  }
-      },function(){
-        //console.log(this.setState);
-        this.props.addProject(this.state.newProject);
-      });
-
       }
       
-      e.preventDefault();
+      //adding to localstorage
+      if(window.localStorage.getItem('todos')){
+        todos = JSON.parse(window.localStorage.getItem('todos'));         
+      }  
+      formData.id = uuid.v4();
+      todos.push(formData);
+      console.log(formData);
+      window.localStorage.setItem('todos', JSON.stringify(todos));
+      window.location.reload();
     }
-
-   render() {
-       let categoryOptions = this.props.categories.map(category => {
-         return (
-           <option key={category} value={category}>{category}</option>
-         );
-       });
-
     return (
       <div>
         <h3>Add Project</h3>        
-        <form onSubmit={this.handleAddProject.bind(this)}>
+        <form method="post" onSubmit={handleAddProject}>
           <div> 
               <label>Title</label>
-              <input type="text" ref="title" />
+              <input type="text" onChange={onChange} value={title} name="title" required />
           </div>
           <div>  
-              <label>Category</label>
-              <select ref="category">
-                { categoryOptions }
-              </select>
+              <label>Comments</label>
+              <textarea name="comments" onChange={onChange} rows="4" cols="15">
+                {comments}
+              </textarea>
           </div>
           <br/>
           <input type="submit" name="submit" value="Add" />          
         </form>
       </div>
-    );
-  }
+    );  
 }
 
 AddProject.protoTypes = {
-  addProject : React.PropTypes.func
+  addProject : PropTypes.func
 }
 
 export default AddProject;
