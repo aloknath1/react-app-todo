@@ -1,8 +1,12 @@
 import React, { useState, useRef } from 'react';
 import uuid from 'uuid';
+import { Link  } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useHistory } from "react-router-dom";
 
 function AddProject(props) {
+  let history = useHistory();
+
   const initialState = { 'id': uuid.v4(),
   'title': '',
   'createdAt': Date(),
@@ -36,11 +40,13 @@ function AddProject(props) {
       todos.push(formData);
       console.log(formData);
       window.localStorage.setItem('todos', JSON.stringify(todos));
-      window.location.reload();
+      history.push('/');
+
     }
     return (
       <div>
-        <h3>Add Project</h3>        
+        <Link to={{ pathname: '/' }}>Back</Link>
+        <h3>Add Todo</h3>        
         <form method="post" onSubmit={handleAddProject}>
           <div> 
               <label>Title</label>

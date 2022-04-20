@@ -1,34 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import Home from './Components/Home';
 import AddProject from './Components/AddProject';
-import Todos from './Components/Todos';
+import EditProject from './Components/EditProject';
+
 import './App.css';
+import { BrowserRouter, Route, Switch  } from 'react-router-dom';
 
 function App() {
-  let [projects, setProjects] = useState([]);
-
-  useEffect(() => {
-    if(window.localStorage.getItem('todos')){
-      let todos = JSON.parse(window.localStorage.getItem('todos'));    
-      setProjects(todos);
-    }  
-  },[projects]);
-
-  const handleAddProject = (project) => {    
-    console.log("add project");    
-    setProjects([...projects, projects]);
-    console.log(projects);
-  }
-    return (
-      <div className="App">       
-        <AddProject addProject={handleAddProject.bind(this)} />     
-        <div className='legend'>
-        <p><span id="circle" className='complete'>&nbsp;</span>Complete</p>
-        <p><span id="circle" className='incomplete'></span>Incomplete</p>
-        </div>
-        <Todos todos={projects} />
-      </div>
-    );
-  
+  return (
+    <div className="App">
+      <BrowserRouter>
+          <Switch>
+            <Route exact path="/"><Home /></Route>
+            <Route exact path="/add"><AddProject /></Route>   
+            <Route exact path="/edit/:todoId" render={(props) => <EditProject {...props} />}></Route>  
+          </Switch>
+        </BrowserRouter>
+    </div>
+    ); 
 }
 
 export default App;
