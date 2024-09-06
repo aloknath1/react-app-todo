@@ -1,39 +1,44 @@
-import React from 'react';
-import { Link  } from 'react-router-dom';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 
-function TodoItem(props) {
-  const edit_url = '/edit/'+props.todo.id;
-  const deleteProject = (id) => {
-    //delete functionality
-    if(window.localStorage.getItem('todos')){
-      let todos = JSON.parse(window.localStorage.getItem('todos'));        
-      let index = todos.findIndex(x => x.id == id);
-      todos.splice(index, 1);    
-      window.localStorage.setItem('todos', JSON.stringify(todos));
-    }  
+function TodoItem(props, todo, users) {
+  const [userStatus, setUserStatus] = useState(false);
+  
+  const userNameFormat = (userId) => {
+    let str = '';    
+    let username = props.users && props.users.filter((user) => {      
+      return (user.id == userId)
+    });
+    (username.available) ? setUserStatus('available') : setUserStatus('not-available');      
+    if(username.indexOf('') >= 0){
+      username = username.split('');
+      if(Array.isArray(username)){
+        str += username[0] +" "+ username[1];
+      }      
+    }else{
+      str = username;
+    }
+    console.log("str", str);
+    return str;
   }
-
-  //date time format
-  const formatDateTime = (datetime) => {
-    var date = new Date(datetime);   
-    var n = date.toDateString();
-    var time = date.toLocaleTimeString();
-    return n + ',' + time;
-  }  
+  
   return (
     <div className="box ProjectItem">
-        <p><strong>{props.todo.title}</strong><span id="circle" className={`${props.todo.status === 'incomplete' ? "incomplete" : "complete"}`}></span></p>      
-        <p className="created">{formatDateTime(props.todo.createdAt)}</p>
-        <p className="category">{props.todo.comments}</p>
-        <p style={{textAlign:'center'}}><Link to={{ pathname: edit_url }}>Edit</Link> &nbsp; <button onClick={deleteProject.bind(this,props.todo.id)}>Delete</button></p>
+        <p className="id">{props.todo.id} 
+          {/* <span className={`user-name-circle float-right ${userStatus}`}>
+          {userNameFormat(props.todo.userId)}</span>        */}
+        </p>
+        <p className="title">{props.todo.title}</p> 
+        {
+          (props.todo.tag) ? <p className="tag"><span className='circle feature-circle'></span>{props.todo.tag}</p> : null
+        }          
     </div>
   );
 }
 
 TodoItem.protoTypes = {
   todo : PropTypes.object,
-  onDelete : PropTypes.func
+  users : PropTypes.object,
 }
 
 export default TodoItem;
