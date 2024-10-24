@@ -1,33 +1,35 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 
-function TodoItem(props, todo, users) {
-  const [userStatus, setUserStatus] = useState(false);
-  
+function TodoItem(props) {  
+  let [userStatus, setUserStatus] = useState(false);
+
   const userNameFormat = (userId) => {
     let str = '';    
-    let username = props.users && props.users.filter((user) => {      
-      return (user.id == userId)
+    let username = props.usersList && props.usersList.filter((user) => {  
+       return (user.id == userId);
     });
-    (username.available) ? setUserStatus('available') : setUserStatus('not-available');      
-    if(username.indexOf('') >= 0){
-      username = username.split('');
+   
+    setUserStatus(username[0].available);
+    console.log("userStatus", userStatus);
+    if(username[0].name.trim().indexOf('') >= 0){
+      username = username[0].name.trim().split('');
       if(Array.isArray(username)){
-        str += username[0] +" "+ username[1];
+        str += username[0].charAt(0) +" "+ username[1].charAt(0);
       }      
     }else{
-      str = username;
+      return username[0].name.charAt(0);
     }
-    console.log("str", str);
+     
     return str;
   }
   
   return (
     <div className="box ProjectItem">
-        <p className="id">{props.todo.id} 
-          {/* <span className={`user-name-circle float-right ${userStatus}`}>
-          {userNameFormat(props.todo.userId)}</span>        */}
-        </p>
+        <div className="id">{props.todo.id} 
+          <p className={`user-name-circle float-right ${(userStatus) ? ' available' : ' not-available' }`}>
+          <span>{userNameFormat(props.todo.userId)}</span></p>       
+        </div>
         <p className="title">{props.todo.title}</p> 
         {
           (props.todo.tag) ? <p className="tag"><span className='circle feature-circle'></span>{props.todo.tag}</p> : null
@@ -38,7 +40,7 @@ function TodoItem(props, todo, users) {
 
 TodoItem.protoTypes = {
   todo : PropTypes.object,
-  users : PropTypes.object,
+  usersList : PropTypes.object,
 }
 
 export default TodoItem;

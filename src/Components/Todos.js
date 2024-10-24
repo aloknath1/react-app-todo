@@ -38,8 +38,6 @@ function Todos(props) {
           return (<TodoItem key={todo.id} todo={todo} usersList={usersList} />);
         }
       });
-
-
   }    
   return (
     <>
