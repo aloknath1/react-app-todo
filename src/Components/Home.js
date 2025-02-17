@@ -8,7 +8,8 @@ function Home() {
       let todosData = await fetch('https://api.quicksell.co/v1/internal/frontend-assignment')
         .then((res) => res.json())
         .then((json) => json);
-        setProjects(todosData);        
+        setProjects(todosData);    
+        //console.log("todosData",todosData);    
     }
 
     useEffect(() => {
@@ -19,7 +20,7 @@ function Home() {
           <Fragment> 
             <div className="kanban-board-title">Kanban Board</div>
             <div className="kanban-board">
-              <Todos todos={projects} />           
+              <Todos todos={projects} users={projects.users} />           
             </div>
           </Fragment>
       );
