@@ -1,8 +1,1 @@
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
-
-Below you will find some information on how to perform common tasks.<br>
-
-
-
-Technologies used: 
-1. ReactJS: a JavaScript library for building user interfaces. It is declarative and component-based.
+![trello](https://github.com/user-attachments/assets/d445b582-4657-44a0-9c8f-5c64dba82be8)
