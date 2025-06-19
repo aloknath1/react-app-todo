@@ -1,12 +1,15 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import uuid from 'uuid';
-import { Link  } from 'react-router-dom';
+//import { Link  } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useHistory } from "react-router-dom";
+//import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { updateTodos } from '../todos/todosSlice';
 
 function AddProject(props) {
-  let history = useHistory();
-
+  //let history = useHistory();
+ const dispatch = useDispatch();
+ let state = useSelector((state) => { return state.posts});
   const initialState = { 'id': uuid.v4(),
   'title': '',
   'createdAt': Date(),
@@ -39,13 +42,16 @@ function AddProject(props) {
       formData.id = uuid.v4();
       todos.push(formData);
       console.log(formData);
-      window.localStorage.setItem('todos', JSON.stringify(todos));
-      history.push('/');
+      //window.localStorage.setItem('todos', JSON.stringify(todos));
+      state = [state, todos];
+      dispatch(updateTodos(state));
+      
+      // history.push('/');
 
     }
     return (
       <div>
-        <Link to={{ pathname: '/' }}>Back</Link>
+        {/* <Link to={{ pathname: '/' }}>Back</Link> */}
         <h3>Add Todo</h3>        
         <form method="post" onSubmit={handleAddProject}>
           <div> 

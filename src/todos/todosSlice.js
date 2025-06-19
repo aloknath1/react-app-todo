@@ -1,19 +1,28 @@
 import {createSlice} from '@reduxjs/toolkit';
 
+const initialState = {
+   posts: []
+};
+
 export const todosSlice = createSlice({
  name: 'todos',
- initialState: [],
+ initialState,
  reducers: {
-    addTodos : (state, action) => {
-     
-         const newTodo = { title: '',
-            completed: false
-         };
-         state.push(newTodo);
-        
+    addTodos : (state, action) => {     
+       state.posts =  [...state.posts, action.payload];   
+       return state;     
+    },
+
+     updateTodos : (state, action) => {     
+       state.posts =  [...state.posts, action.payload];   
+       return state;     
+       
+        //posts.push(action.payload);  
+         //state.posts =  [...state.posts, action.payload];   
+      // return state;     
     }
  }
 });
 
-export const {addTodos}= todosSlice.actions;
+export const {addTodos, updateTodos}= todosSlice.actions;
 export default todosSlice.reducer;
